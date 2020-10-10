@@ -1,8 +1,5 @@
-<script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
-  mpType: "app",
+<script>
+export default {
   onLaunch() {
     console.log("App Launch")
   },
@@ -12,9 +9,15 @@ export default Vue.extend({
   onHide() {
     console.log("App Hide")
   }
-})
+}
 </script>
 
 <style lang="scss">
+@import "uview-ui/index.scss";
 
+image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 </style>

@@ -1,13 +1,11 @@
 <template>
   <div class="container">
 
-	</div>
+  </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+<script>
+export default {
   data() {
     return {
 
@@ -15,11 +13,11 @@ export default Vue.extend({
   },
   onLoad(options) {
 
-	},
+  },
   methods: {
 
-	}
-})
+  }
+}
 </script>
 
 <style lang="scss" scoped>
