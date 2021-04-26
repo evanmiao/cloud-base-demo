@@ -4,6 +4,11 @@
     "style": {
       "navigationBarTitleText": "uniapp-shop"
     }
+  }, {
+    "path": "pages/create/create",
+    "style": {
+      "navigationBarTitleText": "添加商品"
+    }
   }],
   "globalStyle": {
     "navigationBarTextStyle": "black",
