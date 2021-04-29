@@ -2,7 +2,9 @@
   "pages": [{
     "path": "pages/index/index",
     "style": {
-      "navigationBarTitleText": "uniapp-shop"
+      "navigationBarTitleText": "cloud-base-demo",
+      "enablePullDownRefresh": true,
+      "onReachBottomDistance": 0
     }
   }, {
     "path": "pages/create/create",

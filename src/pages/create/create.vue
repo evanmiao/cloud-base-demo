@@ -60,7 +60,8 @@ export default {
           .update({
             data: {
               name: this.goodsInfo.name,
-              price: this.goodsInfo.price,
+              price: Number(this.goodsInfo.price),
+              updateTime: db.serverDate()
             },
           })
           .then(() => {
@@ -81,12 +82,13 @@ export default {
           .add({
             data: {
               name: this.goodsInfo.name,
-              price: this.goodsInfo.price,
+              price: Number(this.goodsInfo.price),
+              createTime: db.serverDate()
             },
           })
           .then(() => {
             uni.showModal({
-              content: '更新成功',
+              content: '添加成功',
               showCancel: false,
               success: res => {
                 if (res.confirm) {
