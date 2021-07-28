@@ -21,19 +21,13 @@
       </u-dropdown>
     </view>
     <view v-if="!isEmpty" class="wrap">
-      <view v-for="(item, index) in goodsList" :key="item._id" class="item">
-        <view class="info">
-          <text>{{ item.name }} / ${{ item.price }}</text>
-        </view>
-        <view class="btn-wrap">
-          <view class="btn update-btn" @click.stop="updateGoods(item._id)">
-            <text>更新</text>
-          </view>
-          <view class="btn delete-btn" @click.stop="deleteGoods(item._id, index)">
-            <text>删除</text>
-          </view>
-        </view>
-      </view>
+      <GoodsItem
+        v-for="item in goodsList"
+        :key="item._id"
+        :item="item"
+        @update="updateGoods"
+        @delete="deleteGoods"
+      ></GoodsItem>
       <view class="loadmore">
         <u-loadmore :status="status" />
       </view>
@@ -169,6 +163,7 @@ export default {
         .skip((this.page++ - 1) * LIMIT)
         .get()
         .then(res => {
+          console.log(res)
           uni.stopPullDownRefresh()
           if (res.data.length === 0) {
             if (this.page === 2) this.isEmpty = true
@@ -188,33 +183,6 @@ export default {
 .container {
   .wrap {
     padding: 0 30rpx;
-
-    .item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 100rpx;
-      padding: 0 10rpx;
-      border-bottom: 1rpx solid #eee;
-
-      .btn-wrap {
-        display: flex;
-
-        .update-btn {
-          height: 50rpx;
-          padding: 0 20rpx;
-          background: $u-type-primary;
-          color: #fff;
-          border-radius: 10rpx;
-        }
-
-        .delete-btn {
-          @extend .update-btn;
-          margin-left: 20rpx;
-          background: $u-type-error;
-        }
-      }
-    }
 
     .loadmore {
       padding: 30rpx 0;

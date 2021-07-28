@@ -17,6 +17,25 @@
           <u-input v-model="goodsInfo.price" type="digit" />
         </view>
       </view>
+      <view class="desc">
+        <view class="title">
+          <text>简介</text>
+        </view>
+        <view class="input">
+          <u-input v-model="goodsInfo.desc" type="textarea" />
+        </view>
+      </view>
+      <view class="upload">
+        <view class="title">
+          <text>上传图片</text>
+        </view>
+        <view class="content">
+          <ImageUpload
+            v-model="imageList"
+            :preset="goodsInfo.images"
+          ></ImageUpload>
+        </view>
+      </view>
     </view>
     <BottomBar>
       <view class="bottom-bar">
@@ -36,6 +55,7 @@ export default {
     return {
       goodsId: 0,
       goodsInfo: {},
+      imageList: [],
     }
   },
   onLoad(options) {
@@ -53,7 +73,19 @@ export default {
         .then(res => (this.goodsInfo = res.data))
         .catch(console.error)
     },
-    confirm() {
+    async confirm() {
+      let uploadedImageList = []
+      if (this.imageList.length) {
+        let res = await Promise.all(
+          this.imageList.map(v =>
+            wx.cloud.uploadFile({
+              cloudPath: Date.now() + '.png',
+              filePath: v,
+            }),
+          ),
+        )
+        uploadedImageList = res.map(v => v.fileID)
+      }
       if (this.goodsId) {
         db.collection('goods')
           .doc(this.goodsId)
@@ -61,7 +93,9 @@ export default {
             data: {
               name: this.goodsInfo.name,
               price: Number(this.goodsInfo.price),
-              updateTime: db.serverDate()
+              desc: this.goodsInfo.desc,
+              images: this.goodsInfo.images.concat(uploadedImageList),
+              updateTime: db.serverDate(),
             },
           })
           .then(() => {
@@ -83,7 +117,9 @@ export default {
             data: {
               name: this.goodsInfo.name,
               price: Number(this.goodsInfo.price),
-              createTime: db.serverDate()
+              desc: this.goodsInfo.desc,
+              images: uploadedImageList,
+              createTime: db.serverDate(),
             },
           })
           .then(() => {
@@ -124,6 +160,23 @@ export default {
 
       .input {
         flex: 1;
+      }
+    }
+
+    .upload {
+      padding: 0 10rpx;
+
+      .title {
+        padding: 30rpx 0;
+      }
+    }
+
+    .desc {
+      @extend .upload;
+
+      .input {
+        padding: 0 10rpx;
+        background: #f8f8f8;
       }
     }
   }
